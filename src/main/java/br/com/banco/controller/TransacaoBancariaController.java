@@ -4,6 +4,9 @@ import br.com.banco.dtos.TransferenciaDto;
 import br.com.banco.entities.Transferencia;
 import br.com.banco.services.TransferenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +22,10 @@ public class TransacaoBancariaController {
     TransferenciaService service;
 
     @GetMapping("/{id}")
-    public List<TransferenciaDto> buscarPorNumeroConta(@PathVariable Long id) {
-        var transacoes = service.buscarTransacoesPorNumeroConta(id);
+    public ResponseEntity<Page<TransferenciaDto>> buscarPorNumeroConta(@PathVariable Long id, @PageableDefault(size = 4) Pageable pageable) {
+        var transacoes = service.buscarTransacoesPorNumeroConta(id, pageable);
         var response = ResponseEntity.ok().body(transacoes);
-        System.out.println(transacoes);
-        return transacoes;
+        return response;
     }
 
 }

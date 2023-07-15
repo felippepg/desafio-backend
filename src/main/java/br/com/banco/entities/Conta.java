@@ -1,9 +1,6 @@
 package br.com.banco.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,6 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @EqualsAndHashCode(of = "id")
 public class Conta {
     @Id
