@@ -10,13 +10,14 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity(name = "Transacao")
-@Table(name = "transacao")
+@Entity(name = "Transferencia")
+@Table(name = "transferencia")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id")
-public class Transacao {
+public class Transferencia {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime dataTransferencia;
