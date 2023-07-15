@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface TransferenciaRepository extends JpaRepository<Transferencia, Long> {
     Page<Transferencia> findByConta(Conta conta, Pageable pageable);
+    List<Transferencia> findByConta(Conta conta);
+
 }

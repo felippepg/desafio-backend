@@ -1,6 +1,5 @@
 package br.com.banco.entities;
 
-import br.com.banco.dtos.ContaDto;
 import br.com.banco.enums.Tipo;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

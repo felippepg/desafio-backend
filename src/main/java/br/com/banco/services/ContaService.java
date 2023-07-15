@@ -24,11 +24,13 @@ public class ContaService {
 
     }
 
-    public Conta atualizarSaldo(Page<Transferencia> transferencias, Conta conta) {
+    public Conta atualizarSaldo(List<Transferencia> transferencias, Conta conta) {
         BigDecimal saldo = BigDecimal.ZERO;
 
         for (Transferencia transferencia : transferencias) {
-            saldo = saldo.add(transferencia.getValor());
+            if(transferencia.getConta() == conta) {
+                saldo = saldo.add(transferencia.getValor());
+            }
         }
 
         conta.setSaldoTotal(saldo);
@@ -38,4 +40,8 @@ public class ContaService {
         return conta;
     }
 
+    public List<Conta> buscarTodas() {
+        var contas = contaRepository.findAll();
+        return contas;
+    }
 }

@@ -28,4 +28,11 @@ public class TransacaoBancariaController {
         return response;
     }
 
+    @GetMapping()
+    public ResponseEntity<Page<TransferenciaDto>> buscarTodasTransacoes(@PageableDefault(size = 4) Pageable pageable) {
+        var transacoes = service.buscarTransacoes(pageable);
+        var response = ResponseEntity.ok().body(transacoes);
+        return response;
+    }
+
 }
