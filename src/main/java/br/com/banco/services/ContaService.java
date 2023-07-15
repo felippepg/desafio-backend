@@ -44,4 +44,17 @@ public class ContaService {
         var contas = contaRepository.findAll();
         return contas;
     }
+
+    public Conta atualizaSaldoPeriodo(List<Transferencia> transferencias, Conta conta) {
+        BigDecimal saldo = BigDecimal.ZERO;
+
+        for (Transferencia transferencia : transferencias) {
+            if(transferencia.getConta() == conta) {
+                saldo = saldo.add(transferencia.getValor());
+            }
+        }
+
+        conta.setSaldoNoPeriodo(saldo);
+        return conta;
+    }
 }
