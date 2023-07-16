@@ -18,6 +18,7 @@ public interface TransferenciaRepository extends JpaRepository<Transferencia, Lo
     List<Transferencia> findByDataTransferenciaBetween(LocalDateTime inicial, LocalDateTime dataFinal);
     Page<Transferencia> findByDataTransferenciaBetweenAndNomeOperadorTransacao(LocalDateTime inicial, LocalDateTime dataFinal, String operador, Pageable pageable);
     List<Transferencia> findByDataTransferenciaBetweenAndNomeOperadorTransacao(LocalDateTime inicial, LocalDateTime dataFinal, String operador);
-
+    Page<Transferencia> findByNomeOperadorTransacao(String operador, Pageable pageable);
+    List<Transferencia> findByNomeOperadorTransacao(String operador);
 
 }
