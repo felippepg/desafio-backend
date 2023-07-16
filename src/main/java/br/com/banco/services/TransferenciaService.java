@@ -54,11 +54,30 @@ public class TransferenciaService {
         var datas = conversor.tranformarStringEmData(dataInicial, dataFinal);
         var transacoes = transferenciaRepository.findByDataTransferenciaBetween(datas.get(0), datas.get(1), pageable);
         var listaTransacoes = transferenciaRepository.findByDataTransferenciaBetween(datas.get(0), datas.get(1));
+        var listaTransacoesSaldoTotal = transferenciaRepository.findAll();
         contas.stream()
                 .map(conta -> contaService.atualizaSaldoPeriodo(listaTransacoes, conta))
                 .collect(Collectors.toList());
         contas.stream()
-                .map(conta -> contaService.atualizarSaldo(listaTransacoes, conta))
+                .map(conta -> contaService.atualizarSaldo(listaTransacoesSaldoTotal, conta))
+                .collect(Collectors.toList());
+
+        transacoes.map(TransferenciaDto::new);
+        return transacoes;
+    }
+
+    public Page<Transferencia> buscarTransacoesPorPeriodosEOperador(String dataInicial, String dataFinal, String operador, Pageable pageable) {
+        List<Conta> contas = contaService.buscarTodas();
+        var datas = conversor.tranformarStringEmData(dataInicial, dataFinal);
+        var transacoes = transferenciaRepository.findByDataTransferenciaBetweenAndNomeOperadorTransacao(datas.get(0), datas.get(1), operador, pageable);
+        var listaTransacoes = transferenciaRepository.findByDataTransferenciaBetweenAndNomeOperadorTransacao(datas.get(0), datas.get(1), operador);
+        var listaTransacoesSaldoTotal = transferenciaRepository.findAll();
+
+        contas.stream()
+                .map(conta -> contaService.atualizaSaldoPeriodo(listaTransacoes, conta))
+                .collect(Collectors.toList());
+        contas.stream()
+                .map(conta -> contaService.atualizarSaldo(listaTransacoesSaldoTotal, conta))
                 .collect(Collectors.toList());
 
         transacoes.map(TransferenciaDto::new);
