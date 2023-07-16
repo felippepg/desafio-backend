@@ -31,7 +31,7 @@ public class TransacaoBancariaController {
     }
 
     @GetMapping("/periodo-data")
-    public ResponseEntity<Page<Transferencia>> buscarPorPeriodos(
+    public ResponseEntity<Page<TransferenciaDto>> buscarPorPeriodos(
             @RequestParam("data-inicial") String dataInicial,
             @RequestParam("data-final") String dataFinal,
             @PageableDefault(size = 4) Pageable pageable
@@ -42,7 +42,7 @@ public class TransacaoBancariaController {
     }
 
     @GetMapping("/periodo-data-operador")
-    public ResponseEntity<Page<Transferencia>> buscarPorPeriodos(
+    public ResponseEntity<Page<TransferenciaDto>> buscarPorPeriodos(
             @RequestParam("data-inicial") String dataInicial,
             @RequestParam("data-final") String dataFinal,
             @RequestParam("operador") String operador,
@@ -51,6 +51,14 @@ public class TransacaoBancariaController {
         var transacoes = service.buscarTransacoesPorPeriodosEOperador(dataInicial, dataFinal, operador, pageable);
         var response = ResponseEntity.ok().body(transacoes);
         return response;
+    }
+
+    @GetMapping("/nome-operador")
+    public ResponseEntity<Page<TransferenciaDto>> buscaPorNomeOperador(@RequestParam("nome-operador") String operador, @PageableDefault(size = 4) Pageable pageable) {
+        var transacoes = service.buscarTransacoesPorNomeOperador(operador, pageable);
+        var response = ResponseEntity.ok().body(transacoes);
+        return response;
+
     }
 
 }
