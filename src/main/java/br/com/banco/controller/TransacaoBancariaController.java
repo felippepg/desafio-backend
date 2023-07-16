@@ -42,14 +42,19 @@ public class TransacaoBancariaController {
             @RequestParam("data-final") String dataFinal,
             @PageableDefault(size = 4) Pageable pageable
     ) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//
-//        LocalDate dataInicialParsed = LocalDate.parse(dataInicial, formatter);
-//        LocalDate dataFinalParsed = LocalDate.parse(dataFinal, formatter);
-//
-//        LocalDateTime inicioDia = dataInicialParsed.atStartOfDay();
-//        LocalDateTime fimDia = dataFinalParsed.atTime(23, 59, 59);
         var transacoes = service.buscarTransacoesPorPeriodos(dataInicial, dataFinal, pageable);
+        var response = ResponseEntity.ok().body(transacoes);
+        return response;
+    }
+
+    @GetMapping("/periodo-data-operador")
+    public ResponseEntity<Page<Transferencia>> buscarPorPeriodos(
+            @RequestParam("data-inicial") String dataInicial,
+            @RequestParam("data-final") String dataFinal,
+            @RequestParam("operador") String operador,
+            @PageableDefault(size = 4) Pageable pageable
+    ) {
+        var transacoes = service.buscarTransacoesPorPeriodosEOperador(dataInicial, dataFinal, operador, pageable);
         var response = ResponseEntity.ok().body(transacoes);
         return response;
     }
