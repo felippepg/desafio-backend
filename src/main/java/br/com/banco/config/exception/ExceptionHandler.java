@@ -18,5 +18,11 @@ public class ExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: " +ex.getLocalizedMessage());
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(ParametroNaoEncontadoException.class)
+    public ResponseEntity tratarErroParametro(Exception ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+
+    }
+
 
 }

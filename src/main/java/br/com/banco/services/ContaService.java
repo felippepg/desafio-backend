@@ -1,5 +1,6 @@
 package br.com.banco.services;
 
+import br.com.banco.config.exception.ParametroNaoEncontadoException;
 import br.com.banco.entities.Conta;
 import br.com.banco.entities.Transferencia;
 import br.com.banco.repositories.ContaRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class ContaService {
     public Conta buscarContaPorId(Long id) {
         var conta = contaRepository.findById(id);
         if(conta.isEmpty()) {
-            throw new RuntimeException("Conta não encontrada");
+            throw new ParametroNaoEncontadoException("Conta não encontrada");
         }
 
         return conta.get();
