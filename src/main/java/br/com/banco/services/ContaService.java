@@ -5,10 +5,8 @@ import br.com.banco.entities.Conta;
 import br.com.banco.entities.Transferencia;
 import br.com.banco.repositories.ContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -26,20 +24,22 @@ public class ContaService {
 
     }
 
-    public Conta atualizarSaldo(List<Transferencia> transferencias, Conta conta) {
+    public List<Conta> atualizarSaldo(List<Transferencia> transferencias) {
         BigDecimal saldo = BigDecimal.ZERO;
-
+        var contas = contaRepository.findAll();
         for (Transferencia transferencia : transferencias) {
-            if(transferencia.getConta() == conta) {
                 saldo = saldo.add(transferencia.getValor());
-            }
         }
 
-        conta.setSaldoTotal(saldo);
-        if(conta.getSaldoNoPeriodo() == null) {
-            conta.setSaldoNoPeriodo(conta.getSaldoTotal());
-        }
-        return conta;
+        BigDecimal finalSaldo = saldo;
+        contas.stream().forEach(conta -> conta.setSaldoTotal(finalSaldo));
+        contas.forEach(conta -> {
+            if (conta.getSaldoNoPeriodo() == null) {
+                conta.setSaldoNoPeriodo(finalSaldo);
+            }
+        });
+
+        return contas;
     }
 
     public List<Conta> buscarTodas() {
@@ -47,16 +47,17 @@ public class ContaService {
         return contas;
     }
 
-    public Conta atualizaSaldoPeriodo(List<Transferencia> transferencias, Conta conta) {
+    public List<Conta> atualizaSaldoPeriodo(List<Transferencia> transferencias) {
         BigDecimal saldo = BigDecimal.ZERO;
+        var contas = contaRepository.findAll();
 
         for (Transferencia transferencia : transferencias) {
-            if(transferencia.getConta() == conta) {
                 saldo = saldo.add(transferencia.getValor());
-            }
         }
 
-        conta.setSaldoNoPeriodo(saldo);
-        return conta;
+        BigDecimal finalSaldo = saldo;
+        contas.stream().forEach(conta -> conta.setSaldoNoPeriodo(finalSaldo));
+
+        return contas;
     }
 }
